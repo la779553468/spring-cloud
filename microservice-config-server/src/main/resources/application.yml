@@ -1,0 +1,16 @@
+server:
+  port: 8040
+spring:
+  application:
+    name: microservice-config-server
+  cloud:
+    config:
+      server:
+        svn:
+          uri: http://192.168.0.117:18080/svn/client/server/ops/jwebidai-manage/branches/jwebidai-manage-v15/src/main/config/
+          default-label: dev
+          username: wancan
+          password: wancan_2015
+  profiles:
+    active: subversion
+

@@ -1,0 +1,4 @@
+server:
+  port: 8051
+management.security.enabled: false  #手动配置关闭安全检查
+

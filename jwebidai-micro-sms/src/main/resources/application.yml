@@ -1,0 +1,54 @@
+server:
+  port: 8001
+spring:
+  application:
+    name: jwebidai-micro-sms    # 项目名称尽量用小写
+  datasource:                           # 指定数据源
+    #数据库连接串 zeroDateTimeBehavior=convertToNull 将错误日期转化为null处理
+    url: jdbc:mysql://192.168.1.16:3306/springbootdb?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
+    username: root #zzmanager
+    password: root123 #iadMOB-2013@0622)
+    driver-class-name: com.mysql.jdbc.Driver
+    # 使用druid数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    filters: stat   #配置统计拦截器
+    initialSize: 10  #初始化连接数
+    minIdle: 10      #最小连接数
+    maxActive: 50   #最大连接数
+    maxWait: 60000  #获取连接等待超时时间 单位ms
+    timeBetweenEvictionRunsMillis: 60000  #配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    minEvictableIdleTimeMillis: 300000   #配置一个连接在池中最小生存的时间，单位是毫秒
+    validationQuery: select 'x'   #查询检测语句
+    testWhileIdle: true       #建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+    testOnBorrow: false      #申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。
+    testOnReturn: false      #归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能
+    poolPreparedStatements: false   #是否缓存preparedStatement，也就是PSCache。PSCache对支持游标的数据库性能提升巨大，比如说oracle。在mysql下建议关闭。
+    maxOpenPreparedStatements: -1   #要启用PSCache，必须配置大于0，当大于0时，poolPreparedStatements自动触发修改为true。在Druid中，不会存在Oracle下PSCache占用内存过多的问题，可以把这个数值配置大一些，比如说100
+    #kafka 配置
+  kafka:
+    bootstrap-servers: 192.168.0.131:9092
+    producer:
+      retries: 0
+      acks: 1
+#pagehelper分页插件
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://discovery:8761/eureka/    # 指定注册中心的地址
+  instance:
+    preferIpAddress: true
+logging:
+  level:
+    com.jwebidai.service: debug
+
+
+#多实例eureka时使用
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://peer1:8761/eureka/,http://peer2:8762/eureka
